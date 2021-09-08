@@ -1,0 +1,16 @@
+app:
+    package: mycompany.CeramicColors
+    name: CeramicColors
+    displayName: CeramicColors
+    author: My Company
+    version: '1.0'
+
+    libs:
+        #- somelib
+        #- somelib: someversion
+        #- somelib: git:https://github.com/somelibauthor/somelib.git
+    
+    defines:
+        #- some_define
+        #- some_define: 'some value'
+
