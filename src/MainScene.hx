@@ -1,65 +1,158 @@
-package;
-
-import ceramic.Text;
+import ceramic.AssetId;
+import classes.MyColor;
+import ceramic.Key;
 import ceramic.Quad;
+import ceramic.Color;
 import ceramic.Scene;
 
+using ceramic.Extensions;
+using ceramic.VisualTransition;
+
+// using classes.Utilities;
 class MainScene extends Scene {
+	/**
+	 * Image displaying the `currentColor`.
+	 */
+	var currentColorQuad:Quad;
 
-    var logo:Quad;
+	/**
+	 * How much the `currentColorQuad` rotates over time.
+	 */
+	var rotationAmount:Int;
 
-    var text:Text;
-    
-    override function preload() {
+	/**
+	 * Whether the `currentColorQuad` rotates clockwise or anticlockwise.
+	 */
+	var rotateClockwise:Bool;
 
-        // Add any asset you want to load here
-        
-        assets.add(Images.CERAMIC);
+	var red:MyColor;
+	var green:MyColor;
+	var blue:MyColor;
+	var orange:MyColor;
 
-    }
+	/**
+	 * Color currently being displayed.
+	 */
+	var currentColor:MyColor;
 
-    override function create() {
+	/**
+	 * The list of color possibilities that might be assigned to the `currentColor`.
+	 */
+	var possibleColors:Array<MyColor>;
 
-        // Called when scene has finished preloading
-        
-        // Display logo
-        logo = new Quad();
-        logo.texture = assets.texture(Images.CERAMIC);
-        logo.anchor(0.5, 0.5);
-        logo.pos(width * 0.5, height * 0.5);
-        logo.scale(0.0001);
-        logo.alpha = 0;
-        add(logo);
+	/**
+	 * Sound played when the `currentColor` is changed.
+	 */
+	var colorChangeSound:AssetId<String>;
 
-        // Create some logo scale "in" animation
-        logo.tween(ELASTIC_EASE_IN_OUT, 0.75, 0.0001, 1.0, function(value, time) {
-            logo.alpha = value;
-            logo.scale(value);
-        });
+	/**
+	 * Called when the scene is preloading, before `create()`.
+	 */
+	override function preload() {
+		assets.add(Images.CERAMIC);
+		// load statically generated sounds from assets
+		assets.add(Sounds.SOUNDS__COLOR_CHANGE);
+		assets.add(Sounds.SOUNDS__RED);
+		assets.add(Sounds.SOUNDS__GREEN);
+		assets.add(Sounds.SOUNDS__BLUE);
+		assets.add(Sounds.SOUNDS__ORANGE);
+	}
 
-        // Print some log
-        log.success('Hello from ceramic :)');
+	override function create() {
+		// created color change sound
+		colorChangeSound = Sounds.SOUNDS__COLOR_CHANGE;
+		// create colors with associated feedback sound
+		red = new MyColor(Color.RED, Sounds.SOUNDS__RED);
+		green = new MyColor(Color.GREEN, Sounds.SOUNDS__GREEN);
+		blue = new MyColor(Color.BLUE, Sounds.SOUNDS__BLUE);
+		orange = new MyColor(Color.ORANGE, Sounds.SOUNDS__ORANGE);
 
-    }
+		// set possible colors to created colors
+		possibleColors = [red, green, blue, orange];
 
-    override function update(delta:Float) {
-        
-        // Here, you can add code that will be executed at every frame
+		// start out with a random color from the possible ones
+		currentColor = possibleColors.randomElement();
 
-    }
+		// create quad (polygon made of 2 triangles)
+		currentColorQuad = new Quad();
+		// currentColorQuad = new Triangle();
+		// set size using method (can also set only width or height)
+		currentColorQuad.size(height, height);
+		currentColorQuad.color = currentColor.color;
+		// set anchor to quad center (default is top left)
+		currentColorQuad.anchor(0.5, 0.5);
+		// position quad to center of scene
+		currentColorQuad.pos(width * 0.5, height * 0.5);
+		// add quad as child of scene
+		add(currentColorQuad);
 
-    override function resize(width:Float, height:Float) {
+		rotationAmount = 60;
 
-        // Called everytime the scene size has changed
+		input.onKeyDown(this, handleKeyPressed);
+	}
 
-    }
+	/**
+	 * Code in here is executed at every frame after `create()` has been called and scene is not paused.
+	 * @param delta the amount of elapsed time since last frame, in seconds
+	 */
+	override function update(delta:Float) {
+		if (rotateClockwise) {
+			currentColorQuad.rotation += delta * rotationAmount;
+		} else {
+			currentColorQuad.rotation -= delta * rotationAmount;
+		}
+	}
 
-    override function destroy() {
+	override function resize(width:Float, height:Float) {
+		// Called everytime the scene size has changed
+	}
 
-        // Perform any cleanup before final destroy
+	override function destroy() {
+		// Perform any cleanup before final destroy
 
-        super.destroy();
+		super.destroy();
+	}
 
-    }
-    
+	function handleKeyPressed(_key:Key) {
+		switch (_key.keyCode) {
+			case SPACE:
+				givePrompt();
+			case RIGHT:
+				changeCurrentColor();
+			case ENTER:
+				giveFeedback();
+			case anythingElse:
+		}
+	}
+
+	function givePrompt() {
+		moveCurrentColor();
+	}
+
+	function changeCurrentColor() {
+		// assign random color to current color
+		currentColor = possibleColors.randomElement();
+		// assign current color to color Quad to display color
+		currentColorQuad.color = currentColor.color;
+		// play change sound
+		assets.sound(colorChangeSound).play();
+		moveCurrentColor();
+	}
+
+	function giveFeedback() {
+		assets.sound(currentColor.feedback).play();
+	}
+
+	function moveCurrentColor() {
+		// use transition API to move the quad at a random position/scale/rotation
+		currentColorQuad.transition(LINEAR, 0.1, currentColorQuad -> {
+			currentColorQuad.x = width * (0.1 + Math.random() * 0.8);
+			currentColorQuad.y = height * (0.1 + Math.random() * 0.8);
+			currentColorQuad.scaleX = 1 * (0.2 + 0.8 * Math.random());
+			currentColorQuad.scaleY = currentColorQuad.scaleX;
+			currentColorQuad.rotation = 360 * Math.random();
+		});
+		// change rotation direction
+		rotateClockwise = !rotateClockwise;
+	}
 }
