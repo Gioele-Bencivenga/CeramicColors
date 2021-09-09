@@ -7,8 +7,8 @@ import ceramic.Scene;
 
 using ceramic.Extensions;
 using ceramic.VisualTransition;
+using classes.Utilities;
 
-// using classes.Utilities;
 class MainScene extends Scene {
 	/**
 	 * Image displaying the `currentColor`.
@@ -130,12 +130,13 @@ class MainScene extends Scene {
 	}
 
 	function changeCurrentColor() {
-		// assign random color to current color
-		currentColor = possibleColors.randomElement();
-		// assign current color to color Quad to display color
-		currentColorQuad.color = currentColor.color;
-		// play change sound
-		assets.sound(colorChangeSound).play();
+		var newColor = possibleColors.randomElement(); // get new random color
+		if (newColor == currentColor) { // diminish the possibility of having the same color while still keeping it possible
+			newColor = possibleColors.randomElement();
+		}
+		currentColor = newColor; // assign new color to current
+		currentColorQuad.color = currentColor.color; // update quad color with current color
+		assets.sound(colorChangeSound).play(); // play change sound
 		moveCurrentColor();
 	}
 
