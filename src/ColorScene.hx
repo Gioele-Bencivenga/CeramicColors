@@ -9,7 +9,7 @@ using ceramic.Extensions;
 using ceramic.VisualTransition;
 using classes.Utilities;
 
-class MainScene extends Scene {
+class ColorScene extends Scene {
 	/**
 	 * Image displaying the `currentColor`.
 	 */

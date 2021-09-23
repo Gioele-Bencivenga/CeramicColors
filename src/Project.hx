@@ -21,6 +21,7 @@ class Project extends Entity {
 
 	function ready() {
 		// Set MainScene as the current scene
-		app.scenes.main = new MainScene();
+		//app.scenes.main = new ColorScene();
+		app.scenes.main = new LetterScene();
 	}
 }
