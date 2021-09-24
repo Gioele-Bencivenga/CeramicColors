@@ -1,3 +1,4 @@
+import classes.MyImage;
 import ceramic.AssetId;
 import classes.MyColor;
 import ceramic.Key;
@@ -72,14 +73,14 @@ class LetterScene extends Scene {
 
 	override function create() {
 		// created color change sound
-		colorChangeSound = Sounds.SOUNDS__CHANGE;
+		imageChangeSound = Sounds.SOUNDS__CHANGE;
 		// create colors with associated feedback sound
-		apple = new MyImage("apple", Sounds.SOUNDS__LETTERS__APPLE);
-		cat = new MyImage("cat", Sounds.SOUNDS__LETTERS__CAT);
-		fish = new MyImage("fish", Sounds.SOUNDS__LETTERS__FISH);
-		moon = new MyImage("moon", Sounds.SOUNDS__LETTERS__MOON);
-		pig = new MyImage("pig", Sounds.SOUNDS__LETTERS__PIG);
-		rocket = new MyImage("rocket", Sounds.SOUNDS__LETTERS__ROCKET);
+		apple = new MyImage(Images.IMAGES__LETTERS__APPLE, Sounds.SOUNDS__LETTERS__APPLE);
+		cat = new MyImage(Images.IMAGES__LETTERS__CAT, Sounds.SOUNDS__LETTERS__CAT);
+		fish = new MyImage(Images.IMAGES__LETTERS__FISH, Sounds.SOUNDS__LETTERS__FISH);
+		moon = new MyImage(Images.IMAGES__LETTERS__MOON, Sounds.SOUNDS__LETTERS__MOON);
+		pig = new MyImage(Images.IMAGES__LETTERS__PIG, Sounds.SOUNDS__LETTERS__PIG);
+		rocket = new MyImage(Images.IMAGES__LETTERS__ROCKET, Sounds.SOUNDS__LETTERS__ROCKET);
 
 		// set possible colors to created colors
 		possibleImages = [apple, cat, fish, moon, pig, rocket];
@@ -92,7 +93,7 @@ class LetterScene extends Scene {
 		// assign current image texture to quad
 		currentImageQuad.texture = assets.texture(currentImage.image);
 		// set size using method (can also set only width or height)
-		currentImageQuad.size(height, height);
+		currentImageQuad.size(800, 600);
 		// set anchor to quad center (default is top left)
 		currentImageQuad.anchor(0.5, 0.5);
 		// position quad to center of scene
