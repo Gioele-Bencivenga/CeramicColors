@@ -52,31 +52,34 @@ class LetterScene extends Scene {
 	 */
 	override function preload() {
 		assets.add(Images.CERAMIC);
-        // load images
-		assets.add(Images.IMAGES__LETTERS__A);
-		assets.add(Images.IMAGES__LETTERS__C);
-		assets.add(Images.IMAGES__LETTERS__F);
-		assets.add(Images.IMAGES__LETTERS__M);
-		assets.add(Images.IMAGES__LETTERS__P);
-		assets.add(Images.IMAGES__LETTERS__R);
+		// load images
+		assets.add(Images.IMAGES__LETTERS__APPLE);
+		assets.add(Images.IMAGES__LETTERS__CAT);
+		assets.add(Images.IMAGES__LETTERS__FISH);
+		assets.add(Images.IMAGES__LETTERS__MOON);
+		assets.add(Images.IMAGES__LETTERS__PIG);
+		assets.add(Images.IMAGES__LETTERS__ROCKET);
 		// load statically generated sounds from assets
-		assets.add(Sounds.SOUNDS__COLOR_CHANGE);
-		assets.add(Sounds.SOUNDS__RED);
-		assets.add(Sounds.SOUNDS__GREEN);
-		assets.add(Sounds.SOUNDS__BLUE);
-		assets.add(Sounds.SOUNDS__ORANGE);
+		assets.add(Sounds.SOUNDS__LETTERS__APPLE);
+		assets.add(Sounds.SOUNDS__LETTERS__CAT);
+		assets.add(Sounds.SOUNDS__LETTERS__FISH);
+		assets.add(Sounds.SOUNDS__LETTERS__MOON);
+		assets.add(Sounds.SOUNDS__LETTERS__PIG);
+		assets.add(Sounds.SOUNDS__LETTERS__ROCKET);
+		// letter change sound
+		assets.add(Sounds.SOUNDS__CHANGE);
 	}
 
 	override function create() {
 		// created color change sound
-		colorChangeSound = Sounds.SOUNDS__COLOR_CHANGE;
+		colorChangeSound = Sounds.SOUNDS__CHANGE;
 		// create colors with associated feedback sound
-		apple = new MyImage(Color.RED, Sounds.SOUNDS__RED);
-		cat = new MyImage(Color.GREEN, Sounds.SOUNDS__GREEN);
-		fish = new MyImage(Color.BLUE, Sounds.SOUNDS__BLUE);
-		moon = new MyImage(Color.ORANGE, Sounds.SOUNDS__ORANGE);
-		pig = new MyImage(Color.ORANGE, Sounds.SOUNDS__ORANGE);
-		rocket = new MyImage(Color.ORANGE, Sounds.SOUNDS__ORANGE);
+		apple = new MyImage("apple", Sounds.SOUNDS__LETTERS__APPLE);
+		cat = new MyImage("cat", Sounds.SOUNDS__LETTERS__CAT);
+		fish = new MyImage("fish", Sounds.SOUNDS__LETTERS__FISH);
+		moon = new MyImage("moon", Sounds.SOUNDS__LETTERS__MOON);
+		pig = new MyImage("pig", Sounds.SOUNDS__LETTERS__PIG);
+		rocket = new MyImage("rocket", Sounds.SOUNDS__LETTERS__ROCKET);
 
 		// set possible colors to created colors
 		possibleImages = [apple, cat, fish, moon, pig, rocket];
@@ -86,10 +89,10 @@ class LetterScene extends Scene {
 
 		// create quad (polygon made of 2 triangles)
 		currentImageQuad = new Quad();
-        currentImageQuad.texture = assets.texture(Images.HAXE_LOGO);
+		// assign current image texture to quad
+		currentImageQuad.texture = assets.texture(currentImage.image);
 		// set size using method (can also set only width or height)
 		currentImageQuad.size(height, height);
-		currentImageQuad.color = currentImage.color;
 		// set anchor to quad center (default is top left)
 		currentImageQuad.anchor(0.5, 0.5);
 		// position quad to center of scene
@@ -146,7 +149,7 @@ class LetterScene extends Scene {
 			newImage = possibleImages.randomElement();
 		}
 		currentImage = newImage; // assign new image to current
-		currentImageQuad.color = currentImage.color; // update quad image with current image
+		currentImageQuad.texture = assets.texture(currentImage.image); // update quad image with current image
 		assets.sound(imageChangeSound).play(); // play change sound
 		moveCurrentImage();
 	}

@@ -28,7 +28,7 @@ class ColorScene extends Scene {
 	var red:MyColor;
 	var green:MyColor;
 	var blue:MyColor;
-	var orange:MyColor;
+	var yellow:MyColor;
 
 	/**
 	 * Color currently being displayed.
@@ -51,34 +51,35 @@ class ColorScene extends Scene {
 	override function preload() {
 		assets.add(Images.CERAMIC);
 		// load statically generated sounds from assets
-		assets.add(Sounds.SOUNDS__COLOR_CHANGE);
-		assets.add(Sounds.SOUNDS__RED);
-		assets.add(Sounds.SOUNDS__GREEN);
-		assets.add(Sounds.SOUNDS__BLUE);
-		assets.add(Sounds.SOUNDS__ORANGE);
+		assets.add(Sounds.SOUNDS__COLORS__RED);
+		assets.add(Sounds.SOUNDS__COLORS__GREEN);
+		assets.add(Sounds.SOUNDS__COLORS__BLUE);
+		assets.add(Sounds.SOUNDS__COLORS__YELLOW);
+		// color change sound
+		assets.add(Sounds.SOUNDS__CHANGE);
 	}
 
 	override function create() {
 		// created color change sound
-		colorChangeSound = Sounds.SOUNDS__COLOR_CHANGE;
+		colorChangeSound = Sounds.SOUNDS__CHANGE;
 		// create colors with associated feedback sound
-		red = new MyColor(Color.RED, Sounds.SOUNDS__RED);
-		green = new MyColor(Color.GREEN, Sounds.SOUNDS__GREEN);
-		blue = new MyColor(Color.BLUE, Sounds.SOUNDS__BLUE);
-		orange = new MyColor(Color.ORANGE, Sounds.SOUNDS__ORANGE);
+		red = new MyColor(Color.RED, Sounds.SOUNDS__COLORS__RED);
+		green = new MyColor(Color.GREEN, Sounds.SOUNDS__COLORS__GREEN);
+		blue = new MyColor(Color.BLUE, Sounds.SOUNDS__COLORS__BLUE);
+		yellow = new MyColor(Color.YELLOW, Sounds.SOUNDS__COLORS__YELLOW);
 
 		// set possible colors to created colors
-		possibleColors = [red, green, blue, orange];
+		possibleColors = [red, green, blue, yellow];
 
 		// start out with a random color from the possible ones
 		currentColor = possibleColors.randomElement();
 
 		// create quad (polygon made of 2 triangles)
 		currentColorQuad = new Quad();
-		// currentColorQuad = new Triangle();
+		// assign current color to quad
+		currentColorQuad.color = currentColor.color;
 		// set size using method (can also set only width or height)
 		currentColorQuad.size(height, height);
-		currentColorQuad.color = currentColor.color;
 		// set anchor to quad center (default is top left)
 		currentColorQuad.anchor(0.5, 0.5);
 		// position quad to center of scene
