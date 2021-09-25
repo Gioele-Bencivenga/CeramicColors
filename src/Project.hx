@@ -1,6 +1,5 @@
 package;
 
-import ceramic.SceneSystem;
 import ceramic.Entity;
 import ceramic.Color;
 import ceramic.InitSettings;
@@ -21,7 +20,6 @@ class Project extends Entity {
 
 	function ready() {
 		// Set MainScene as the current scene
-		//app.scenes.main = new ColorScene();
-		app.scenes.main = new LetterScene();
+		app.scenes.main = new ColorScene();
 	}
 }

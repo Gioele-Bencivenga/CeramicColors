@@ -122,6 +122,8 @@ class ColorScene extends Scene {
 				changeCurrentColor();
 			case ENTER:
 				giveFeedback();
+			case LCTRL:
+				app.scenes.main = new LetterScene();
 			case anythingElse:
 		}
 	}
