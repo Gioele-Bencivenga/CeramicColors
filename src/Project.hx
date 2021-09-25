@@ -19,6 +19,9 @@ class Project extends Entity {
 	}
 
 	function ready() {
+		// prevent unloading of assets when a scene is destroyed
+		// beware that if you load a lot of different assets in different scenes with that option, it will keep every loaded asset in memory even if they are not used anymore.
+		app.scenes.keepAssetsForNextMain = true;
 		// Set MainScene as the current scene
 		app.scenes.main = new ColorScene();
 	}

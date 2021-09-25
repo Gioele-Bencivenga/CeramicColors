@@ -47,16 +47,32 @@ class ColorScene extends Scene {
 
 	/**
 	 * Called when the scene is preloading, before `create()`.
+	 * 
+	 * We load all of the assets here so that changing scenes is faster.
 	 */
 	override function preload() {
-		assets.add(Images.CERAMIC);
 		// load statically generated sounds from assets
+		// color change sound
+		assets.add(Sounds.SOUNDS__CHANGE);
+		// color feedback sounds
 		assets.add(Sounds.SOUNDS__COLORS__RED);
 		assets.add(Sounds.SOUNDS__COLORS__GREEN);
 		assets.add(Sounds.SOUNDS__COLORS__BLUE);
 		assets.add(Sounds.SOUNDS__COLORS__YELLOW);
-		// color change sound
-		assets.add(Sounds.SOUNDS__CHANGE);
+		// letter images
+		assets.add(Images.IMAGES__LETTERS__APPLE);
+		assets.add(Images.IMAGES__LETTERS__CAT);
+		assets.add(Images.IMAGES__LETTERS__FISH);
+		assets.add(Images.IMAGES__LETTERS__MOON);
+		assets.add(Images.IMAGES__LETTERS__PIG);
+		assets.add(Images.IMAGES__LETTERS__ROCKET);
+		// letter feedback sounds
+		assets.add(Sounds.SOUNDS__LETTERS__APPLE);
+		assets.add(Sounds.SOUNDS__LETTERS__CAT);
+		assets.add(Sounds.SOUNDS__LETTERS__FISH);
+		assets.add(Sounds.SOUNDS__LETTERS__MOON);
+		assets.add(Sounds.SOUNDS__LETTERS__PIG);
+		assets.add(Sounds.SOUNDS__LETTERS__ROCKET);
 	}
 
 	override function create() {

@@ -52,23 +52,24 @@ class LetterScene extends Scene {
 	 * Called when the scene is preloading, before `create()`.
 	 */
 	override function preload() {
-		assets.add(Images.CERAMIC);
-		// load images
-		assets.add(Images.IMAGES__LETTERS__APPLE);
-		assets.add(Images.IMAGES__LETTERS__CAT);
-		assets.add(Images.IMAGES__LETTERS__FISH);
-		assets.add(Images.IMAGES__LETTERS__MOON);
-		assets.add(Images.IMAGES__LETTERS__PIG);
-		assets.add(Images.IMAGES__LETTERS__ROCKET);
-		// load statically generated sounds from assets
-		assets.add(Sounds.SOUNDS__LETTERS__APPLE);
-		assets.add(Sounds.SOUNDS__LETTERS__CAT);
-		assets.add(Sounds.SOUNDS__LETTERS__FISH);
-		assets.add(Sounds.SOUNDS__LETTERS__MOON);
-		assets.add(Sounds.SOUNDS__LETTERS__PIG);
-		assets.add(Sounds.SOUNDS__LETTERS__ROCKET);
-		// letter change sound
-		assets.add(Sounds.SOUNDS__CHANGE);
+		/* all loaded in the `ColorScene`
+			// color change sound
+			assets.add(Sounds.SOUNDS__CHANGE);
+			// letter images
+			assets.add(Images.IMAGES__LETTERS__APPLE);
+			assets.add(Images.IMAGES__LETTERS__CAT);
+			assets.add(Images.IMAGES__LETTERS__FISH);
+			assets.add(Images.IMAGES__LETTERS__MOON);
+			assets.add(Images.IMAGES__LETTERS__PIG);
+			assets.add(Images.IMAGES__LETTERS__ROCKET);
+			// letter feedback sounds
+			assets.add(Sounds.SOUNDS__LETTERS__APPLE);
+			assets.add(Sounds.SOUNDS__LETTERS__CAT);
+			assets.add(Sounds.SOUNDS__LETTERS__FISH);
+			assets.add(Sounds.SOUNDS__LETTERS__MOON);
+			assets.add(Sounds.SOUNDS__LETTERS__PIG);
+			assets.add(Sounds.SOUNDS__LETTERS__ROCKET);
+		 */
 	}
 
 	override function create() {
@@ -136,6 +137,8 @@ class LetterScene extends Scene {
 				changeCurrentImage();
 			case ENTER:
 				giveFeedback();
+			case LCTRL:
+				app.scenes.main = new ColorScene();
 			case anythingElse:
 		}
 	}
